@@ -11,7 +11,7 @@
     - rails-install
 
 - name: Send deployKey
-  copy: content={{deploy_key}} dest="{{deploy_key_dir}}/deploy_rsa.private" mode=0400
+  copy: content="{{deploy_key}}" dest="{{deploy_key_dir}}/deploy_rsa.private" mode=0400
   tags:
     - rails-install
 
