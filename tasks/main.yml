@@ -1,0 +1,37 @@
+---
+- name: Set Envs
+  lineinfile: dest=/etc/environment regex="^{{item.key}}=.*$" line="{{item.key}}={{item.value}}" state=present
+  with_dict: system_envs
+  tags:
+    - rails-install
+
+- name: Create ssh direcetory
+  file: path="{{deploy_key_dir}}" state=directory
+  tags:
+    - rails-install
+
+- name: Send deployKey
+  copy: content={{deploy_key}} dest="{{deploy_key_dir}}/deploy_rsa.private" mode=0400 state=present
+  tags:
+    - rails-install
+
+- name: Checkout Git Tag into path
+  git:
+    repo: "{{git_repo}}"
+    dest: "{{install_path}}"
+    key_file: "{{rails.path}}/deploy_rsa.private"
+    accept_hostkey: yes
+    force: yes
+    version: "{{git_tag|default(master)}}"
+  tags:
+    - rails-install
+
+- name: Bundle install
+  command: chdir={{rails.path}} bundle install  --full-index --deployment --without development test --binstubs
+  tags:
+    - rails-install
+
+- name: Clear deploykey
+  file: path="{{deploy_key_dir}}/deploy_rsa.private" state=absent
+  tags:
+    - rails-install

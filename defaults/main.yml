@@ -1,0 +1,9 @@
+---
+git_repo: "configure_your_git_repo"
+git_tag: master
+insall_dir: /opt/rails-app
+deploy_key: "your private deploy"
+deploy_key_dir: "/tmp"
+
+system_envs:
+  RAILS_ENV: production

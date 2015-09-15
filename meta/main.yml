@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: Antoine Legrand
+  description: Checkout and Install rails application
+  license: MIT
+  min_ansible_version: 1.7
+  categories:
+  - system
+dependencies: []
